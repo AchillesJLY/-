@@ -1,0 +1,40 @@
+#! python3
+# - 验证百囚徒问题
+import random
+sumTimes = 0
+passedTimes = 0
+while sumTimes < 100000:
+    # - 创建盒子，每个盒子里有一个随机编号
+    boxNum = []
+    boxContent = []
+    for i in range(100):
+        boxNum.append(i+1)
+        boxContent.append(i+1)
+    random.shuffle(boxContent)
+    box = dict(zip(boxNum,boxContent))
+    # - 创建囚徒编号
+    prisonerNums = []
+    for i in range(100):
+        prisonerNums.append(i+1)
+    # - 开始找盒子
+    passedNum = 0
+    for prisonerNum in prisonerNums:
+        # 第一次检查
+        if box[prisonerNum] == prisonerNum:
+            passedNum += 1
+            continue
+        else:
+            nextBoxNum = box[prisonerNum]
+        # 还有49次机会
+        for chance in range(1,50):
+            if box[nextBoxNum] == prisonerNum:
+                passedNum += 1
+                break
+            else:
+                nextBoxNum = box[nextBoxNum]
+    # 判断是否通过
+    if passedNum == 100:
+        passedTimes += 1
+    sumTimes += 1
+print(str(passedTimes/sumTimes))
+
